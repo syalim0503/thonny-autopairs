@@ -1,0 +1,52 @@
+name: Windows installer release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build exe
+        working-directory: thonny-autopairs-windows
+        run: |
+          python -m pip install pyinstaller
+          pyinstaller --onefile --console --name thonny-autopairs-setup --exclude-module thonny --add-data "thonnycontrib/autopairs.py;thonnycontrib" install_helper.py
+
+      - name: Smoke test against pip-installed Thonny
+        shell: pwsh
+        run: |
+          python -m pip install thonny
+          $env:pythonLocation | & .\thonny-autopairs-windows\dist\thonny-autopairs-setup.exe
+          if ($LASTEXITCODE -ne 0) { throw "installer exited with $LASTEXITCODE" }
+          $dir = python -I -c "import thonny; print(thonny.get_sys_path_directory_containg_plugins())"
+          $installed = Join-Path $dir "thonnycontrib\autopairs.py"
+          $expected = (Get-FileHash thonny-autopairs-windows\thonnycontrib\autopairs.py).Hash
+          if (-not (Test-Path $installed) -or (Get-FileHash $installed).Hash -ne $expected) { throw "autopairs.py not installed at $installed" }
+          Write-Host "Installed OK: $installed"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: thonny-autopairs-setup
+          path: thonny-autopairs-windows/dist/thonny-autopairs-setup.exe
+
+      - name: Upload to release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --verify-tag --title "$TAG" --notes "Windows: thonny-autopairs-setup.exe 를 내려받아 실행하세요. 자세한 내용은 README를 참고하세요."
+          gh release upload "$TAG" thonny-autopairs-windows/dist/thonny-autopairs-setup.exe --clobber

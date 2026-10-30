@@ -7,9 +7,12 @@ Thonny 괄호/따옴표 자동완성 플러그인 (Windows, Thonny 5)
 - 끄고 켜기: Tools > Options > Auto-pairs
 
 설치
-1. 압축을 풀고 install_helper.py 를 Thonny에서 엽니다.
-2. Thonny 메뉴의 Run(F5)을 누릅니다. "설치 완료" 메시지가 나오면 성공입니다.
-3. Thonny를 껐다가 다시 열기
+1. https://github.com/syalim0503/thonny/releases/latest 에서 thonny-autopairs-setup.exe 를 받아 더블클릭
+   ("Windows의 PC 보호" 창이 뜨면: 추가 정보 > 실행)
+2. "설치 완료" 메시지가 나오면 Thonny를 껐다가 다시 열기
+
+exe가 막히면
+  install_helper.py 를 Thonny에서 열고 Run(F5)을 누릅니다.
 
 수동 설치
   1. Thonny에서 Tools > Open Thonny data folder... 를 누르면 Thonny 폴더가 열립니다.
