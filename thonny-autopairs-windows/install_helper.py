@@ -1,6 +1,6 @@
 """
 Copies autopairs.py into the plugin folder of the Thonny whose Python runs this script.
-Run with Thonny's own python.exe (install.bat does that).
+Open this file in Thonny and press F5 (Run) with Thonny's default interpreter.
 """
 
 import os

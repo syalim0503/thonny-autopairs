@@ -16,7 +16,7 @@ Thonny 5용 자동완성 플러그인입니다. 설치 방법은 운영체제에
 
 | 폴더 | 대상 | 설치 파일 |
 | --- | --- | --- |
-| `thonny-autopairs-windows/` | Windows | `install.bat` |
+| `thonny-autopairs-windows/` | Windows | `install_helper.py` (Thonny에서 실행) |
 | `thonny-plugins/` | macOS | `install.command` |
 
 두 폴더의 `thonnycontrib/autopairs.py`는 같은 파일입니다.
@@ -24,10 +24,10 @@ Thonny 5용 자동완성 플러그인입니다. 설치 방법은 운영체제에
 ## Windows 설치
 
 1. `thonny-autopairs-windows/` 폴더를 받아 압축을 풉니다.
-2. `install.bat`을 더블클릭합니다. "Windows의 PC 보호" 창이 뜨면 추가 정보 > 실행을 선택합니다.
+2. `install_helper.py`를 Thonny에서 엽니다. Run(F5)을 누르면 Thonny의 Python이 실행되어 플러그인을 복사합니다.
 3. Thonny를 껐다가 다시 엽니다.
 
-Thonny 설치 위치를 찾지 못하면 `install.bat`이 경로를 입력하라고 묻습니다. 경로는 Thonny 바로가기에서 우클릭 후 파일 위치 열기로 확인할 수 있습니다.
+실행이 안 되거나 `thonny` 모듈을 찾지 못하면 수동 설치를 사용하세요.
 
 ## macOS 설치
 
